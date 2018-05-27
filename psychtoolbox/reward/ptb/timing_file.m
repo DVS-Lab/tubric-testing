@@ -8,68 +8,68 @@ end
 
 blocks = 1:2;
 for r = 1:length(blocks)
-    
+
     load(fullfile(datadir,sprintf('%s_feedback_%d.mat',num2str(subject),r))) % '%s_reward_%d.mat'
-    choicedata = [data.feedback; data.deckchoice]';
-    
-    % estimate learning
-    out = choicedata(:,1);
-    dec = choicedata(:,2);
-    
-    alpha = 0.30;
-    beta = 2;
-    [exp_c, exp_u, pe_e] = runRW(dec, out, alpha, beta);
-    
+    choicedata = transpose([data.feedback; data.deckchoice]);
     ntrials = length(data);
-    
-    %make empty mats (for *_par, will make *_con last)
-    decision = zeros(ntrials,3);
-    decision_c = decision;
-    decision_u = decision;
-    inf_par = zeros(ntrials,3);
-    lapse1 = zeros(ntrials,3);
-    
+
+    % estimate learning
+    data_fit.out = choicedata(:,1);
+    data_fit.dec = choicedata(:,2);
+
+    fit_RW;
+    [v_c, v_uc, p, pe, ~] = RW( results.x, data_fit );
+
+    lapse   = zeros(ntrials,3);
+    choice   = lapse1;
+    feedback = choice;
+
     for t = 1:ntrials
-        
+
         if data(t).lapse1
-            lapse1(t,1) = data(t).choice_onset;
-            lapse1(t,2) = 2.5;
-            lapse1(t,3) = 1;
+            lapse(t,1) = data(t).choice_onset;
+            lapse(t,2) = 2.5;
+            lapse(t,3) = 1;
         else
-            decision(t,1) = data(t).choice_onset;
-            decision(t,2) = data(t).RT1;
-            decision(t,3) = 1;
-            
-            decision_c(t,1) = data(t).choice_onset;
-            decision_c(t,2) = data(t).RT1;
-            decision_c(t,3) = exp_c(t);
-            
-            decision_u(t,1) = data(t).choice_onset;
-            decision_u(t,2) = data(t).RT1;
-            decision_u(t,3) = exp_u(t);
-            
-            inf_par(t,1) = data(t).info_onset;
-            inf_par(t,2) = 1.75;
-            inf_par(t,3) = pe_e(t);
-            
+            choice(t,1) = data(t).choice_onset;
+            choice(t,2) = data(t).RT1;
+            choice(t,3) = v_c(t);
+
+            prob(t,1) = data(t).choice_onset;
+            prob(t,2) = data(t).RT1;
+            prob(t,3) = p(t);
+
+            feedback(t,1) = data(t).info_onset;
+            feedback(t,2) = 1.75;
+            feedback(t,3) = pe(t);
+
         end
     end
-    
-    decision(~decision(:,1),:) = [];
-    lapse1(~lapse1(:,1),:) = [];
-    
-    % demean parametric regressors
-    inf_par(~inf_par(:,1),:) = [];
-    
-    % make constants
-    inf_con = inf_par;
-    inf_con(:,3) = 1;
-    
+
+% remove lapse trials
+choice(~choice(:,1),:)           = [];
+prob(~prob(:,1),:) = [];
+feedback(~feedback(:,1),:)       = [];
+
+% demean parametric regressors
+choice(:,3)      = choice(:,3) - mean(choice(:,3));
+prob(:,3) = prob(:,3) - mean(prob(:,3));
+feedback(:,3)    = feedback(:,3) - mean(feedback(:,3));
+
+len = size(choice, 1);
+constant = ones(len,1);
+
+choice_c    = [choice(:,1:2), constant];
+prob_c = [prob(:,1:2), constant];
+feedback_c = [feedback(:,1:2), constant];
+
     cd(outputdir);
-    dlmwrite(sprintf('inf_con%d.txt',r),inf_con,'delimiter','\t','precision','%.6f')
-    dlmwrite(sprintf('inf_par%d.txt',r),inf_par,'delimiter','\t','precision','%.6f')
-    dlmwrite(sprintf('decision%d.txt',r),decision,'delimiter','\t','precision','%.6f')
-    dlmwrite(sprintf('decision_c%d.txt',r),decision_c,'delimiter','\t','precision','%.6f')
-    dlmwrite(sprintf('decision_u%d.txt',r),decision_u,'delimiter','\t','precision','%.6f')
+    dlmwrite(sprintf('choice_run_%d.txt',r),choice,'delimiter','\t','precision','%.6f')
+    dlmwrite(sprintf('choice_c_run_%d.txt',r),choice_c,'delimiter','\t','precision','%.6f')
+    dlmwrite(sprintf('prob_run_%d.txt',r),prob,'delimiter','\t','precision','%.6f')
+    dlmwrite(sprintf('prob_c_run_%d.txt',r),prob_c,'delimiter','\t','precision','%.6f')
+    dlmwrite(sprintf('feedback_run_%d.txt',r),feedback,'delimiter','\t','precision','%.6f')
+    dlmwrite(sprintf('feedback_c_run_%d.txt',r),feedback_c,'delimiter','\t','precision','%.6f')
+    dlmwrite(sprintf('lapse_run_%d.txt',r),lapse,'delimiter','\t','precision','%.6f')
     cd(maindir);
 end

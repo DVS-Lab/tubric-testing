@@ -295,26 +295,29 @@
                            <xmpG:blue>90</xmpG:blue>
                         </rdf:li>
                         <rdf:li rdf:parseType="Resource">
-                           <xmpG:swatchName>R=237 G=30 B=121</xmpG:swatchName>
-                           <xmpG:mode>RGB</xmpG:mode>
-                           <xmpG:type>PROCESS</xmpG:type>
-                           <xmpG:red>237</xmpG:red>
-                           <xmpG:green>30</xmpG:green>
-                           <xmpG:blue>121</xmpG:blue>
+                           <xmpG:swatchName>R=237 G=30 B=121</xmpG:swatc</xmpG:type>
+                           <xmpG:red>96</xmpG:red>
+                           <xmpG:green>56</xmpG:green>
+                           <xmpG:blue>19</xmpG:blue>
                         </rdf:li>
                         <rdf:li rdf:parseType="Resource">
-                           <xmpG:swatchName>R=199 G=178 B=153</xmpG:swatchName>
+                           <xmpG:swatchName>R=66 G=33 B=11</xmpG:swatchName>
                            <xmpG:mode>RGB</xmpG:mode>
                            <xmpG:type>PROCESS</xmpG:type>
-                           <xmpG:red>199</xmpG:red>
-                           <xmpG:green>178</xmpG:green>
-                           <xmpG:blue>153</xmpG:blue>
+                           <xmpG:red>66</xmpG:red>
+                           <xmpG:green>33</xmpG:green>
+                           <xmpG:blue>11</xmpG:blue>
                         </rdf:li>
+                     </rdf:Seq>
+                  </xmpG:Colorants>
+               </rdf:li>
+               <rdf:li rdf:parseType="Resource">
+                  <xmpG:groupName>Grays</xmpG:groupName>
+                  <xmpG:groupType>1</xmpG:groupType>
+                  <xmpG:Colorants>
+                     <rdf:Seq>
                         <rdf:li rdf:parseType="Resource">
-                           <xmpG:swatchName>R=153 G=134 B=117</xmpG:swatchName>
-                           <xmpG:mode>RGB</xmpG:mode>
-                           <xmpG:type>PROCESS</xmpG:type>
-                           <xmpG:red>153</xmpG:red>
+               <xmpG:red>153</xmpG:red>
                            <xmpG:green>134</xmpG:green>
                            <xmpG:blue>117</xmpG:blue>
                         </rdf:li>
