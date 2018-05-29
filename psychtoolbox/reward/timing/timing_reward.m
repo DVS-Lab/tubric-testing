@@ -6,7 +6,7 @@ temp = temp([temp.isdir]');
 subjects = temp(~ismember({temp.name},{'.','..'}));
 num_sub = size(subjects);
 
-outputdir = fullfile(maindir,'evfiles_reward_new');
+outputdir = fullfile(maindir,'reward_bids');
 if ~exist(outputdir,'dir')
     mkdir(outputdir);
 end
@@ -18,8 +18,6 @@ for s = 1:num_sub
 
     sub_name = subjects(s).name;
     sub_dir  = fullfile(datadir,sub_name);
-    mkdir(outputdir,sub_name);
-    out_dir = fullfile(outputdir,sub_name);
 
     sub_timing;
 
