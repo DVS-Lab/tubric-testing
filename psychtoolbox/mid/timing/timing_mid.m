@@ -4,20 +4,21 @@ datadir = fullfile(maindir,'data');
 temp    = dir(datadir);
 temp = temp([temp.isdir]');
 subjects = temp(~ismember({temp.name},{'.','..'}));
-num_sub = size(subjects);
+num_sub = size(subjects,1);
 
-outputdir = fullfile(maindir,'evfiles_mid');
+outputdir = fullfile(maindir,'mid_bids');
 if ~exist(outputdir,'dir')
     mkdir(outputdir);
 end
+
+duration = 20;
+constant = 1;
 
 for s = 1:num_sub
 
     sub_name = subjects(s).name;
     sub_dir  = fullfile(datadir,sub_name);
-    mkdir(outputdir,sub_name);
-    out_dir = fullfile(outputdir,sub_name);
 
-    sub_timing;
+    sub_timing_mid;
 
 end

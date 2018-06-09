@@ -60,6 +60,11 @@ for r = 1:n_run
             headers(end) = '';
             dlmwrite(filename, headers,'')
             dlmwrite(filename, choice, '-append','delimiter','\t','precision','%.5f')
+            
+            old = fileread(filename);
+            new = strrep(old, 'NaN', 'n/a');
+            dlmwrite(filename,new,'');
+            
             cd(maindir);
 			
 		end

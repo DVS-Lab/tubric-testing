@@ -4,7 +4,7 @@ datadir = fullfile(maindir,'data');
 temp    = dir(datadir);
 temp = temp([temp.isdir]');
 subjects = temp(~ismember({temp.name},{'.','..'}));
-num_sub = size(subjects);
+num_sub = size(subjects,1);
 
 outputdir = fullfile(maindir,'reward_bids');
 if ~exist(outputdir,'dir')
